@@ -266,19 +266,19 @@ class QuestionLike
     end
 
     def self.likers_for_question_id(question_id)
-        QuestionsDatabase.instance.execute(<<-SQL, question_id)
-            SELECT *
+       liker_query = QuestionsDatabase.instance.execute(<<-SQL, question_id)
+            SELECT users.*
             FROM question_likes
-            JOIN users
-                ON 
-                question_likes.user_id = users.id
             JOIN questions
                 ON
                 questions.id = question_likes.questions_id
+            JOIN users
+                ON 
+                question_likes.user_id = users.id
             WHERE 
                 questions.id = ? AND question_likes.liked = true
         SQL
-    # liker_query.map{|hash| QuestionLike.new(hash)}.first
+        liker_query.map{|hash| User.new(hash)}
     end
 end
 
