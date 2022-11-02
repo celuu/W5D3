@@ -78,4 +78,8 @@ VALUES
     (17,(SELECT id FROM questions WHERE title = 'I love you Taylor Swift'), NULL, (SELECT id FROM users WHERE fname = 'Morgan'), "midnight rain rocks!" ),
     (18,(SELECT id FROM questions WHERE title = 'I love you Taylor Swift'), 17, (SELECT id FROM users WHERE fname = 'Morgan'), "lavender haze is amazinggg!" );
 
-
+INSERT INTO
+    question_likes(id, question_id, user_id, liked)
+VALUES
+    (1,10,2,true)
+    (2,10,1,true)
