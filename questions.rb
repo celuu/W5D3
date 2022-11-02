@@ -50,6 +50,7 @@ class User
     end
 
     def authored_replies
+        Reply.find_by_user_id(id)
     end
 end
 
@@ -84,8 +85,15 @@ class Question
             FROM questions
             WHERE user_id = ?
         SQL
-
         author_id_query.map {|hash| Question.new(hash)}
+    end
+
+    def author
+       User.find_by_id(user_id) 
+    end
+
+    def replies
+        Reply.find_by_question_id(id)
     end
 end
 
@@ -155,6 +163,22 @@ class Reply
         SQL
         questions_id_query.map{|hash| Reply.new(hash)}
     end
+
+    def author
+        Users.find_by_id(user_id)
+    end
+
+    def question
+        Question.find_by_id(questions_id)
+    end
+
+    def parent_reply
+        Question.find_by_id(parent_id)
+    end
+
+    # def child_replies
+    #     Question.find_by_id(ch)
+    # end
 end
 
 class QuestionLike
@@ -181,5 +205,5 @@ class QuestionLike
     end
 end
 
-u = User.find_by_id(1)
-p u.authored_questions
+u = Question.find_by_id(10)
+p u.replies
